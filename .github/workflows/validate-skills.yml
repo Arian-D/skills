@@ -1,0 +1,31 @@
+name: Lint Skills
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".agents/skills/**"
+      - ".github/workflows/validate-skills.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - ".agents/skills/**"
+      - ".github/workflows/validate-skills.yml"
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    name: Lint Markdown
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install markdownlint
+        run: npm install -g markdownlint-cli
+
+      - name: Lint SKILL.md files
+        run: |
+          find .agents/skills -name "SKILL.md" -type f | while read file; do
+            echo "Linting $file"
+            markdownlint "$file"
+          done
