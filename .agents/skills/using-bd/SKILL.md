@@ -166,23 +166,10 @@ bd create "Follow-up: ..." -t task -p 2 --json
 bd close <id> --reason "Completed" --json
 ```
 
-3. **Sync all changes to git** (persists to remote):
+3. **Sync all changes to git**:
 ```bash
 bd sync
 ```
-
-4. **Push to remote** (NON-NEGOTIABLE):
-```bash
-git pull --rebase
-git push  # Must complete successfully before session ends
-```
-
-5. **Verify clean state**:
-```bash
-git status  # Should show "up to date with origin/main"
-```
-
-**CRITICAL:** The plane has NOT landed until `git push` succeeds. Work is not complete until remote is updated. Do NOT say "ready to push when you are" — the agent must push.
 
 ## Troubleshooting Quick Checks
 
@@ -195,7 +182,6 @@ git status  # Should show "up to date with origin/main"
 
 - Running `bd edit` (interactive) inside agents — use `bd update` with flags instead.
 - Forgetting `bd sync` after operations — JSONL won't be exported to git.
-- Forgetting to push to remote at session end — work gets stranded locally.
 - Creating issues without `--json` when scripting — output becomes unparseable.
 - Using interactive shell commands (`cp`, `mv`, `rm` without `-f`) — agents hang waiting for confirmation.
 - Using interactive file operations (`apt-get` without `-y`) — agents hang on prompts.
